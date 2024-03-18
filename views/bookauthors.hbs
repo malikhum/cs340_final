@@ -1,0 +1,104 @@
+{{!-- 
+Citation for Handlebars Files:
+Date: 03/18/2024
+Adapted from (used as starter code and modified):
+Changes in here were mainly done per table, as in added different types of forms and menus compared to the example files. 
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
+--}}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Book Authors</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<nav>
+    <ul>
+        <li><a href="/books">Books</a></li>
+        <li><a href="/authors">Authors</a></li>
+        <li><a href="/bookauthors">Book Authors</a></li>
+        <li><a href="/publishers">Publishers</a></li>
+        <li><a href="/genres">Genres</a></li>
+        <li><a href="/sales">Sales</a></li>
+    </ul>
+</nav>
+
+<body>
+    <h1>Book Authors</h1>
+    <table>
+        <tr>
+            <th>BookAuthor ID</th>
+            <th>Book ID</th>
+            <th>Author ID</th>
+        </tr>
+        {{#each bookauthors}}
+        <tr>
+            <td>{{this.bookAuthorID}}</td>
+            <td>{{this.bookID}}</td>
+            <td>{{this.authorID}}</td>
+        </tr>
+        {{/each}}
+    </table>
+
+    <h2>Add New Book Author Relationship</h2>
+    <form action="/add-book-author" method="post">
+        <label for="bookID">Book:</label>
+        <select id="bookID" name="bookID" required>
+            {{#each books}}
+            <option value="{{this.bookID}}">{{this.title}}</option>
+            {{/each}}
+        </select><br>
+
+        <label for="authorID">Author:</label>
+        <select id="authorID" name="authorID" required>
+            {{#each authors}}
+            <option value="{{this.authorID}}">{{this.name}}</option>
+            {{/each}}
+        </select><br>
+        <input type="submit" value="Add Book Author">
+    </form>
+
+    <h2>Edit Book Author Relationship</h2>
+    <form action="/edit-book-author" method="post">
+        <label for="edit-bookAuthorID">BookAuthor Relationship:</label>
+        <select id="edit-bookAuthorID" name="bookAuthorID" required>
+            {{#each bookauthors}}
+            <option value="{{this.bookAuthorID}}">Book {{this.bookID}} - Author {{this.authorID}}</option>
+            {{/each}}
+        </select><br>
+
+        <label for="edit-bookID">New Book:</label>
+        <select id="edit-bookID" name="newBookID" required>
+            {{#each books}}
+            <option value="{{this.bookID}}">{{this.title}}</option>
+            {{/each}}
+        </select><br>
+
+        <label for="edit-authorID">New Author:</label>
+        <select id="edit-authorID" name="newAuthorID" required>
+            {{#each authors}}
+            <option value="{{this.authorID}}">{{this.name}}</option>
+            {{/each}}
+        </select><br>
+
+        <input type="submit" value="Edit Book Author">
+    </form>
+
+    <h2>Delete Book Author Relationship</h2>
+    <form action="/delete-book-author" method="post">
+        <label for="delete-bookAuthorID">BookAuthor Relationship:</label>
+        <select id="delete-bookAuthorID" name="bookAuthorID" required>
+            {{#each bookauthors}}
+            <option value="{{this.bookAuthorID}}">Book {{this.bookID}} - Author {{this.authorID}}</option>
+            {{/each}}
+        </select><br>
+
+        <input type="submit" value="Delete Book Author">
+    </form>
+
+    <a href="index.html">Back to Home</a>
+</body>
+</html>

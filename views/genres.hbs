@@ -1,0 +1,80 @@
+{{!-- 
+Citation for Handlebars Files:
+Date: 03/18/2024
+Adapted from (used as starter code and modified):
+Changes in here were mainly done per table, as in added different types of forms and menus compared to the example files. 
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
+--}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Genres</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<nav>
+    <ul>
+        <li><a href="/books">Books</a></li>
+        <li><a href="/authors">Authors</a></li>
+        <li><a href="/bookauthors">Book Authors</a></li>
+        <li><a href="/publishers">Publishers</a></li>
+        <li><a href="/genres">Genres</a></li>
+        <li><a href="/sales">Sales</a></li>
+    </ul>
+</nav>
+
+<body>
+    <h1>Genres</h1>
+    <table>
+        <tr>
+            <th>Genre ID</th>
+            <th>Name</th>
+        </tr>
+        {{#each genres}}
+            <tr>
+                <td>{{this.genreID}}</td>
+                <td>{{this.name}}</td>
+            </tr>
+        {{/each}}
+    </table>
+
+    <h2>Add New Genre</h2>
+    <form action="/add-genre" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <input type="submit" value="Add Genre">
+    </form>
+
+    <h2>Delete Genre</h2>
+    <form action="/delete-genre" method="post">
+        <label for="genreID">Select Genre to Delete:</label>
+        <select id="genreID" name="genreID" required>
+            <option value="">Select Genre</option>
+            {{#each genres}}
+                <option value="{{this.genreID}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+        <input type="submit" value="Delete Genre">
+    </form>
+
+    <h2>Edit Genre</h2>
+    <form id="edit-genre-form">
+        <label for="edit-genreID">Select Genre to Edit:</label>
+        <select id="edit-genreID" name="edit-genreID" required>
+            <option value="">Select Genre</option>
+            {{#each genres}}
+                <option value="{{this.genreID}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+        <br>
+        <label for="edit-name">New Name:</label>
+        <input type="text" id="edit-name" name="edit-name" required><br>
+        <button type="button" onclick="editGenre()">Edit Genre</button>
+    </form>
+
+    <script src="/js/edit-genre.js"></script> 
+
+</body>
+</html>

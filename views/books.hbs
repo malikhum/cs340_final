@@ -1,0 +1,154 @@
+{{!-- 
+Citation for Handlebars Files:
+Date: 03/18/2024
+Adapted from (used as starter code and modified):
+Changes in here were mainly done per table, as in added different types of forms and menus compared to the example files. 
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
+--}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Books</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<nav>
+    <ul>
+        <li><a href="/books">Books</a></li>
+        <li><a href="/authors">Authors</a></li>
+        <li><a href="/bookauthors">Book Authors</a></li>
+        <li><a href="/publishers">Publishers</a></li>
+        <li><a href="/genres">Genres</a></li>
+        <li><a href="/sales">Sales</a></li>
+    </ul>
+</nav>
+<body>
+    <h1>Books</h1>
+<h2>Search Books by Title, Year, Genre ID, or Publisher ID</h2>
+<form action="/books/search" method="post">
+    <input type="text" id="searchQuery" name="searchQuery" placeholder="Type title, year, genre ID, or publisher ID..." required>
+    <input type="submit" value="Search">
+</form>
+
+
+
+
+
+    <table>
+        <tr>
+            <th>bookID</th>
+            <th>Title</th>
+            <th>GenreID</th>
+            <th>Publication Year</th>
+            <th>Price</th>
+            <th>Publisher ID</th>
+        </tr>
+    {{#each books}}
+        <tr>
+            <td>{{this.bookID}}</td>
+            <td>{{this.title}}</td>
+            <td>{{this.genreID}}</td>
+            <td>{{this.publicationYear}}</td>
+            <td>{{this.price}}</td>
+            <td>{{this.publisherID}}</td>
+            
+        </tr>
+    {{/each}}
+
+    </table>
+
+        <!-- Dropdown for deleting books -->
+    <h2>Delete Book</h2>
+    <form action="/delete-book" method="post">
+        <select name="bookID" required>
+            <option value="">Select Book</option>
+            {{#each books}}
+                <option value="{{this.bookID}}">{{this.title}}</option>
+            {{/each}}
+        </select>
+        <input type="submit" value="Delete Book">
+    </form>
+    
+    <h2>Add New Book</h2>
+    <form action="/add-book" method="post">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br>
+
+        <label for="genre">Genre:</label>
+        <select id="genre" name="genre" required>
+            {{#each genres}}
+            <option value="{{this.genreID}}">{{this.name}}</option>
+            {{/each}}
+        </select><br>
+
+        <label for="publisher">Publisher:</label>
+        <select id="publisher" name="publisher" required>
+            {{#each publishers}}
+            <option value="{{this.publisherID}}">{{this.name}}</option>
+            {{/each}}
+        </select><br>
+
+        <label for="publicationYear">Publication Year:</label>
+        <input type="number" id="publicationYear" name="publicationYear" required><br>
+        
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price" required><br>
+
+        <input type="submit" value="Add Book">
+    </form>
+
+
+    <h2>Edit Book</h2>
+    <form id="edit-book-form" action="/edit-book" method="post">
+        <label for="edit-bookID">Select Book to Edit:</label>
+        <select id="edit-bookID" name="edit-bookID" required>
+            <option value="">Select Book</option>
+            {{#each books}}
+                <option value="{{this.bookID}}">{{this.title}}</option>
+            {{/each}}
+        </select>
+        <br>
+
+        <label for="edit-title">Title:</label>
+        <input type="text" id="edit-title" name="edit-title" required><br>
+
+        <label for="edit-genre">Genre:</label>
+        <select id="edit-genre" name="edit-genre" required>
+            {{#each genres}}
+            <option value="{{this.genreID}}">{{this.name}}</option>
+            {{/each}}
+        </select><br>
+
+        <label for="edit-publicationYear">Publication Year:</label>
+        <input type="number" id="edit-publicationYear" name="edit-publicationYear" required><br>
+
+        <label for="edit-price">Price:</label>
+        <input type="text" id="edit-price" name="edit-price" required><br>
+
+        <label for="edit-publisher">Publisher:</label>
+        <select id="edit-publisher" name="edit-publisher" required>
+            {{#each publishers}}
+            <option value="{{this.publisherID}}">{{this.name}}</option>
+            {{/each}}
+        </select><br>
+
+        <input type="submit" value="Edit Book">
+    </form>
+
+
+    <script src="/js/edit-book.js"></script>
+
+    <script>
+    document.getElementById('genreFilter').addEventListener('change', function() {
+        var genreId = this.value;
+        if (genreId) {
+            window.location.href = '/books/filter/' + genreId;
+        } else {
+            window.location.href = '/books';
+        }
+    });
+    </script>
+
+
+</body>
+</html>

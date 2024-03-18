@@ -1,0 +1,103 @@
+{{!-- sales.hbs --}}
+
+{{!-- 
+Citation for Handlebars Files:
+Date: 03/18/2024
+Adapted from (used as starter code and modified):
+Changes in here were mainly done per table, as in added different types of forms and menus compared to the example files. 
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
+--}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Sales</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<nav>
+    <ul>
+        <li><a href="/books">Books</a></li>
+        <li><a href="/authors">Authors</a></li>
+        <li><a href="/bookauthors">Book Authors</a></li>
+        <li><a href="/publishers">Publishers</a></li>
+        <li><a href="/genres">Genres</a></li>
+        <li><a href="/sales">Sales</a></li>
+    </ul>
+</nav>
+
+<body>
+    <h1>Sales</h1>
+    <table>
+        <tr>
+            <th>Sale ID</th>
+            <th>Book ID</th>
+            <th>Quantity</th>
+            <th>Sale Date</th>
+        </tr>
+        {{#each sales}}
+        <tr>
+            <td>{{this.saleID}}</td>
+            <td>{{this.bookID}}</td>
+            <td>{{this.quantity}}</td>
+            <td>{{this.saleDate}}</td>
+        </tr>
+        {{/each}}
+    </table>
+
+    <h2>Add New Sale</h2>
+    <form action="/add-sale" method="post">
+        <label for="bookID">Book ID:</label>
+        <select id="bookID" name="bookID" required>
+            <option value="">Select Book</option>
+            <!-- Book ID options will be populated dynamically -->
+        </select><br>
+
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required><br>
+
+        <label for="saleDate">Sale Date:</label>
+        <input type="date" id="saleDate" name="saleDate" required><br>
+
+        <input type="submit" value="Add Sale">
+    </form>
+
+    <h2>Delete Sale</h2>
+    <form action="/delete-sale" method="post">
+        <label for="saleID">Select Sale to Delete:</label>
+        <select id="saleID" name="saleID" required>
+            <option value="">Select Sale</option>
+            {{#each sales}}
+                <option value="{{this.saleID}}">
+                    ID: {{this.saleID}}, Book ID: {{this.bookID}}, Qty: {{this.quantity}}, Date: {{this.saleDate}}
+                </option>
+            {{/each}}
+        </select>
+        <input type="submit" value="Delete Sale">
+    </form>
+
+    <h2>Edit Sale</h2>
+    <form id="edit-sale-form">
+        <label for="edit-saleID">Sale ID:</label>
+        <input type="number" id="edit-saleID" name="edit-saleID" required><br>
+
+        <label for="edit-bookID">Book ID:</label>
+        <select id="edit-bookID" name="edit-bookID" required>
+            <option value="">Select Book</option>
+            <!-- Book ID options will be populated dynamically -->
+        </select><br>
+
+        <label for="edit-quantity">Quantity:</label>
+        <input type="number" id="edit-quantity" name="edit-quantity" required><br>
+
+        <label for="edit-saleDate">Sale Date:</label>
+        <input type="date" id="edit-saleDate" name="edit-saleDate" required><br>
+
+        <button type="button" onclick="editSale()">Edit Sale</button>
+    </form>
+
+    <script src="/js/edit-sale.js"></script>
+
+    <a href="/">Back to Home</a>
+</body>
+</html>

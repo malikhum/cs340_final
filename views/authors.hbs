@@ -1,0 +1,91 @@
+{{!-- authors.hbs --}}
+{{!-- 
+Citation for Handlebars Files:
+Date: 03/18/2024
+Adapted from (used as starter code and modified):
+Changes in here were mainly done per table, as in added different types of forms and menus compared to the example files. 
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
+--}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Authors</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<nav>
+    <ul>
+        <li><a href="/books">Books</a></li>
+        <li><a href="/authors">Authors</a></li>
+        <li><a href="/bookauthors">Book Authors</a></li>
+        <li><a href="/publishers">Publishers</a></li>
+        <li><a href="/genres">Genres</a></li>
+        <li><a href="/sales">Sales</a></li>
+    </ul>
+</nav>
+
+<body>
+    <h1>Authors</h1>
+    <table>
+        <tr>
+            <th>AuthorID</th>
+            <th>Name</th>
+            <th>Biography</th>
+        </tr>
+        {{#each authors}}
+        <tr>
+            <td>{{this.authorID}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.biography}}</td>
+        </tr>
+        {{/each}}
+    </table>
+
+    <h2>Add New Author</h2>
+    <form action="/add-author" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="biography">Biography:</label>
+        <textarea id="biography" name="biography" required></textarea><br>
+
+        <input type="submit" value="Add Author">
+    </form>
+
+    <h2>Delete Author</h2>
+    <form action="/delete-author" method="post">
+        <label for="authorID">Select Author to Delete:</label>
+        <select id="authorID" name="authorID" required>
+            <option value="">Select Author</option>
+            {{#each authors}}
+                <option value="{{this.authorID}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+        <input type="submit" value="Delete Author">
+    </form>
+
+
+    <h2>Edit Author</h2>
+    <form id="edit-author-form">
+        <label for="edit-authorID">Select Author to Edit:</label>
+        <select id="edit-authorID" name="authorID" required>
+            <option value="">Select Author</option>
+            {{#each authors}}
+                <option value="{{this.authorID}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+        <br>
+        <label for="edit-name">Name:</label>
+        <input type="text" id="edit-name" name="name" required><br>
+        <label for="edit-biography">Biography:</label>
+        <textarea id="edit-biography" name="biography" required></textarea><br>
+        <button type="button" onclick="editAuthor()">Edit Author</button>
+    </form>
+
+    <script src="/js/edit-author.js"></script>
+
+
+    <a href="index.html">Back to Home</a>
+</body>
+</html>

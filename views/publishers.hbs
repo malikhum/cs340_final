@@ -1,0 +1,106 @@
+{{!-- 
+Citation for Handlebars Files:
+Date: 03/18/2024
+Adapted from (used as starter code and modified):
+Changes in here were mainly done per table, as in added different types of forms and menus compared to the example files. 
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
+--}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Publishers</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<nav>
+    <ul>
+        <li><a href="/books">Books</a></li>
+        <li><a href="/authors">Authors</a></li>
+        <li><a href="/bookauthors">Book Authors</a></li>
+        <li><a href="/publishers">Publishers</a></li>
+        <li><a href="/genres">Genres</a></li>
+        <li><a href="/sales">Sales</a></li>
+    </ul>
+</nav>
+
+<body>
+    <h1>Publishers</h1>
+    <table>
+        <tr>
+            <th>Publisher ID</th>
+            <th>Name</th>
+            <th>Street</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Country</th>
+        </tr>
+        {{#each publishers}}
+        <tr>
+            <td>{{this.publisherID}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.street}}</td>
+            <td>{{this.city}}</td>
+            <td>{{this.state}}</td>
+            <td>{{this.country}}</td>
+        </tr>
+        {{/each}}
+    </table>
+
+    <!-- Dropdown for deleting publishers -->
+    <h2>Delete Publisher</h2>
+    <form action="/delete-publisher" method="POST">
+        <select name="publisherID" required>
+            <option value="">Select a Publisher</option>
+            {{#each publishers}}
+                <option value="{{this.publisherID}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+        <button type="submit">Delete</button>
+    </form>
+
+    <h2>Add New Publisher</h2>
+    <form action="/add-publisher" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="street" required><br>
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required><br>
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state"><br>
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" required><br>
+        <input type="submit" value="Add Publisher">
+    </form>
+
+    <h2>Edit Publisher</h2>
+    <form id="edit-publisher-form">
+        <label for="edit-publisherID">Select Publisher to Edit:</label>
+        <select id="edit-publisherID" required>
+            <option value="">Select Publisher</option>
+            {{#each publishers}}
+                <option value="{{this.publisherID}}">{{this.name}}</option>
+            {{/each}}
+        </select><br>
+
+        <label for="edit-name">Name:</label>
+        <input type="text" id="edit-name" required><br>
+        <label for="edit-street">Street:</label>
+        <input type="text" id="edit-street" required><br>
+        <label for="edit-city">City:</label>
+        <input type="text" id="edit-city" required><br>
+        <label for="edit-state">State:</label>
+        <input type="text" id="edit-state"><br>
+        <label for="edit-country">Country:</label>
+        <input type="text" id="edit-country" required><br>
+
+        <button type="button" onclick="editPublisher()">Edit Publisher</button>
+    </form>
+
+    <script src="/js/edit-publisher.js"></script>
+
+    <a href="/">Back to Home</a>
+</body>
+</html>
